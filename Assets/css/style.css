@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Comic Sans MS", "Chalkboard SE", "Comic Neue", sans-serif;
+}
+
+header {
+  text-align: center;
+  border-bottom-style: solid;
+}
+
+.mainContent {
+  padding: 50px 100px;
+  display: flex;
+  justify-content: space-evenly;
+  border-bottom-style: solid;
+}
+
+button {
+  cursor: pointer;
+}
+
+#startButton img {
+  width: 200px;
+  height: 200px;
+}
+
+#timeLeft {
+  text-align: center;
+  font-size: 30px;
+}
+
+.results {
+  padding: 50px 300px;
+  display: flex;
+  justify-content: center;
+}
