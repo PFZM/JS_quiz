@@ -82,7 +82,9 @@ var timerCount;
 var score;
 var questions = [question1, question2, question3];
 
-// event listenerts
+function init() {}
+
+// event listener to star the quiz
 startButton.addEventListener("click", startQuiz);
 
 function startQuiz() {
@@ -94,8 +96,8 @@ function startQuiz() {
 
 function startTimer() {
   timer = setInterval(function () {
-    timeLeft.textContent = timerCount;
     timerCount--;
+    timeLeft.textContent = timerCount;
 
     if (timerCount === 0) {
       clearInterval(timer);
@@ -120,29 +122,44 @@ function displayQuestions() {
       console.log(disQuestion.choices.length);
       var listChoices = disQuestion.choices[i];
       console.log(listChoices);
-
-      if (toString(listChoices)) {
-        var listQuestions = listChoices;
-        console.log(listQuestions);
-        var li = document.createElement("li");
-        li.textContent = listQuestions;
-        disQuestions.appendChild(li);
+      var listQuestions = listChoices[Object.keys(listChoices)[0]];
+      console.log(listQuestions);
+      var li = document.createElement("li");
+      if (listChoices[Object.keys(listChoices)[1]]) {
+        li.setAttribute("data-true", "yes");
       }
+      li.textContent = listQuestions;
+
+      disQuestions.appendChild(li);
     }
-
-    // var li = questionsField.createElement("li");
-    // li.questionsField.textContent = disQuestion;
-    //     li.setAttribute("data-index", i);
-
-    //     var button = document.createElement("button");
-    //     button.textContent = "Complete ✔️";
-
-    //     li.appendChild(button);
-    //     todoList.appendChild(li);
-    //   }
+    checkAnswer();
   }
+}
+
+function checkAnswer() {
+  disQuestions.addEventListener("click", function (event) {
+    var element = event.target;
+    if (element.matches("li") === true) {
+      var selection = element.getAttribute("data-true");
+      console.log(selection);
+    }
+    if (selection === "yes") {
+      element.setAttribute("data-correct", "correct");
+      element.textContent = " Correct!";
+      correctAnswer();
+    } else {
+      element.setAttribute("data-correct", "wrong");
+      element.textContent = " Wrong!";
+    }
+  });
+}
+
+function correctAnswer() {
+  score++;
 }
 
 function finishQuiz() {
   return;
 }
+
+init();

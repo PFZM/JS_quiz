@@ -32,6 +32,32 @@ button {
   font-size: 30px;
 }
 
+#displayQuestions {
+  background-color: rgb(211, 209, 209);
+  border-style: solid;
+  padding-left: 0px;
+  list-style-type: none;
+  border-bottom-style: none;
+}
+
+#displayQuestions li {
+  border-bottom-style: solid;
+  padding: 10px 10px;
+}
+
+#displayQuestions li:hover {
+  background-color: rgb(60, 86, 102);
+  cursor: pointer;
+}
+
+#displayQuestions li[data-correct="correct"] {
+  background-color: mediumseagreen;
+}
+
+#displayQuestions li[data-correct="wrong"] {
+  background-color: rgb(138, 36, 36);
+}
+
 .results {
   padding: 50px 300px;
   display: flex;
