@@ -12,7 +12,7 @@ var submitButton = document.querySelector("#submit-button");
 var results = document.querySelector(".results");
 var startButton = document.querySelector("#startButton");
 var resultButton = document.querySelector("#resultsButton");
-var displayResults = document.querySelector("displayResults");
+var displayResults = document.querySelector("#displayResults");
 
 // Declare variables for questions
 const question1 = {
@@ -85,11 +85,10 @@ const question3 = {
 // Declare variables
 var timerCount;
 var score;
+var displayScores;
 var questions = [question1, question2, question3];
 
-function init() {}
-
-// event listener to star the quiz
+// event listeners
 startButton.addEventListener("click", startQuiz);
 submitButton.addEventListener("click", submitScore);
 resultButton.addEventListener("click", showResults);
@@ -115,9 +114,10 @@ function startTimer() {
 
 function displayQuestions() {
   startButton.style.display = "none";
+  disQuestions.style.display = "block";
   console.log(questions);
 
-  //   display question
+  //   display questions
   for (var i = 0; i < questions.length; i++) {
     var disQuestion = questions[i];
     console.log(disQuestion);
@@ -153,22 +153,15 @@ function checkAnswer() {
     if (selection === "yes") {
       element.setAttribute("data-correct", "correct");
       element.textContent = " Correct!";
-      correctAnswer();
+      score++;
     } else {
       element.setAttribute("data-correct", "wrong");
       element.textContent = " Wrong!";
+      timerCount = timerCount - 5;
+      startTimer();
     }
   });
 }
-
-function correctAnswer() {
-  score++;
-  storeScore();
-}
-
-// function storeScore() {
-//   localStorage.setItem("Score", JSON.stringify(score));
-// }
 
 function finishQuiz() {
   questionsField.style.display = "none";
@@ -179,16 +172,24 @@ function finishQuiz() {
     "Thanks for taking this quiz!\n Your score is: " + score;
 }
 
-function submitScore (){
-    var scores = {
-        initials = initialsForm.value.trim(),
-        finalScore = score.value
-    };
-    localStorage.setItem("Score", JSON.stringify(scores));
-
+function submitScore() {
+  var scores = {
+    initials: initialsForm.value.trim(),
+    finalScore: score,
+  };
+  localStorage.setItem("Score", JSON.stringify(scores));
+  window.alert("Thanks! Your score has been submitted");
 }
 
-
-function showResults() {}
-
-init();
+function showResults() {
+  var li = document.createElement("li");
+  var highScores = JSON.parse(localStorage.getItem("Score"));
+  if (highScores === null) {
+    window.alert("No scores submitted at this stage");
+    return;
+  }
+  console.log(highScores);
+  li.textContent =
+    "Person: " + highScores.initials + " Score: " + highScores.finalScore;
+  displayResults.appendChild(li);
+}

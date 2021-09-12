@@ -37,7 +37,7 @@
         <p id="personalScore"></p>
         <form method="GET">
             <label for="initials-name">Please add your initials</label>
-            <input type="text"  placeholder="PZ" name="initials-name" id="initials-name"/> 
+            <input type="text"  placeholder="PZ" name="initials-name" id="initials-name" required/> 
             <button id="submit-button">Submit Score</button>     
         </form>    
         </div>
@@ -45,8 +45,12 @@
 
       <!-- Results section -->
       <div class="results">
-        <button id="resultsButton">Check High Scores</button>
-        <ul id="displayResults"></ul>
+            <div>
+                <button id="resultsButton">Check High Scores</button>
+            </div>
+            <div>
+                <ol id="displayResults"></ol>
+            </div>
       </div>
     </main>
 

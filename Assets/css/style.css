@@ -16,6 +16,7 @@ header {
   display: flex;
   justify-content: space-evenly;
   border-bottom-style: solid;
+  flex-wrap: wrap;
 }
 
 button {
@@ -33,6 +34,7 @@ button {
 }
 
 #displayQuestions {
+  display: none;
   background-color: rgb(211, 209, 209);
   border-style: solid;
   padding-left: 0px;
@@ -63,7 +65,16 @@ button {
 }
 
 .results {
-  padding: 50px 300px;
+  padding: 50px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+#displayResults li {
+  list-style: upper-roman;
+}
+
+#resultsButton {
+  width: 200px;
 }
