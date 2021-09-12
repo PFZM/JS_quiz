@@ -1,13 +1,18 @@
 // queryselectors
 var readyStatement = document.querySelector("#readyStatement");
-var maintContent = document.querySelector(".mainContent");
 var questionsField = document.querySelector(".questionsField");
 var questionStatement = document.querySelector("#question");
 var disQuestions = document.querySelector("#displayQuestions");
+var timerDiv = document.querySelector(".timer");
 var timeLeft = document.querySelector("#timeLeft");
+var fnQuizdiv = document.querySelector(".finishQuiz");
+var personalScore = document.querySelector("#personalScore");
+var initialsForm = document.querySelector("#initials-name");
+var submitButton = document.querySelector("#submit-button");
 var results = document.querySelector(".results");
 var startButton = document.querySelector("#startButton");
 var resultButton = document.querySelector("#resultsButton");
+var displayResults = document.querySelector("displayResults");
 
 // Declare variables for questions
 const question1 = {
@@ -86,6 +91,8 @@ function init() {}
 
 // event listener to star the quiz
 startButton.addEventListener("click", startQuiz);
+submitButton.addEventListener("click", submitScore);
+resultButton.addEventListener("click", showResults);
 
 function startQuiz() {
   timerCount = 60;
@@ -156,10 +163,32 @@ function checkAnswer() {
 
 function correctAnswer() {
   score++;
+  storeScore();
 }
 
+// function storeScore() {
+//   localStorage.setItem("Score", JSON.stringify(score));
+// }
+
 function finishQuiz() {
-  return;
+  questionsField.style.display = "none";
+  timerDiv.style.display = "none";
+  fnQuizdiv.style.display = "block";
+
+  personalScore.textContent =
+    "Thanks for taking this quiz!\n Your score is: " + score;
 }
+
+function submitScore (){
+    var scores = {
+        initials = initialsForm.value.trim(),
+        finalScore = score.value
+    };
+    localStorage.setItem("Score", JSON.stringify(scores));
+
+}
+
+
+function showResults() {}
 
 init();

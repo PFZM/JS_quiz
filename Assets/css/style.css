@@ -58,6 +58,10 @@ button {
   background-color: rgb(138, 36, 36);
 }
 
+.finishQuiz {
+  display: none;
+}
+
 .results {
   padding: 50px 300px;
   display: flex;
