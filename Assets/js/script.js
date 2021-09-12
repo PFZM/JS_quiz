@@ -108,20 +108,24 @@ function displayQuestions() {
   startButton.style.display = "none";
   console.log(questions);
 
+  //   display question
   for (var i = 0; i < questions.length; i++) {
     var disQuestion = questions[i];
     console.log(disQuestion);
     questionStatement.textContent = disQuestion.question;
     console.log(disQuestion.choices);
 
+    // display list of choices  of possible answers
     for (var i = 0; i < disQuestion.choices.length; i++) {
       console.log(disQuestion.choices.length);
-      var disChoice = disQuestion.choices[i];
-      console.log(disChoice);
+      var listChoices = disQuestion.choices[i];
+      console.log(listChoices);
 
-      if (toString(disChoice)) {
+      if (toString(listChoices)) {
+        var listQuestions = listChoices;
+        console.log(listQuestions);
         var li = document.createElement("li");
-        li.textContent = toString(disChoice);
+        li.textContent = listQuestions;
         disQuestions.appendChild(li);
       }
     }
