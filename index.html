@@ -8,7 +8,7 @@
     <title>Javascript Quiz</title>
   </head>
   <body>
-    <!-- heafer with the informtion that is this is a JS quiz -->
+    <!-- header with the informtion that is this is a JS quiz -->
     <header>
       <h1>Welcome to the Javascript Quiz!</h1>
       <p>
@@ -20,12 +20,12 @@
 
     <main>
       <div class="mainContent">
-        <div class="questionsField">  
-        <button id="startButton">
-          <img src="./Assets/Images/startbutton.png" />
-        </button>
-        <p id="question"></p>
-        <ul id="displayQuestions"></ulid></ul>
+        <div class="questionsField">
+          <button id="startButton">
+            <img src="./Assets/Images/startbutton.png" />
+          </button>
+          <p id="question"></p>
+          <ul id="displayQuestions"></ul>
         </div>
 
         <div class="timer">
@@ -33,24 +33,31 @@
           <p id="timeLeft">--</p>
         </div>
 
+        <!-- Section after answered all questions or time is over => form to submitt socores -->
         <div class="finishQuiz">
-        <p id="personalScore"></p>
-        <form method="GET">
+          <p id="personalScore"></p>
+          <form method="GET">
             <label for="initials-name">Please add your initials</label>
-            <input type="text"  placeholder="PZ" name="initials-name" id="initials-name" required/> 
-            <button id="submit-button">Submit Score</button>     
-        </form>    
+            <input
+              type="text"
+              placeholder="PZ"
+              name="initials-name"
+              id="initials-name"
+              required
+            />
+            <button id="submit-button">Submit Score</button>
+          </form>
         </div>
       </div>
 
       <!-- Results section -->
       <div class="results">
-            <div>
-                <button id="resultsButton">Check High Scores</button>
-            </div>
-            <div>
-                <ol id="displayResults"></ol>
-            </div>
+        <div>
+          <button id="resultsButton">Check High Scores</button>
+        </div>
+        <div>
+          <ol id="displayResults"></ol>
+        </div>
       </div>
     </main>
 

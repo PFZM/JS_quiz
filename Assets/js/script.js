@@ -84,15 +84,19 @@ const question3 = {
 
 // Declare variables
 var timerCount;
-var score;
+var score = 0;
 var displayScores;
+var timer;
 var questions = [question1, question2, question3];
+var numOfQuestion = 0;
+var listOfScores = [];
 
 // event listeners
 startButton.addEventListener("click", startQuiz);
 submitButton.addEventListener("click", submitScore);
 resultButton.addEventListener("click", showResults);
 
+// function to start the quiz
 function startQuiz() {
   timerCount = 60;
   score = 0;
@@ -100,6 +104,7 @@ function startQuiz() {
   displayQuestions();
 }
 
+// function to start the timer once the user click the start button
 function startTimer() {
   timer = setInterval(function () {
     timerCount--;
@@ -115,54 +120,61 @@ function startTimer() {
 function displayQuestions() {
   startButton.style.display = "none";
   disQuestions.style.display = "block";
-  console.log(questions);
 
   //   display questions
-  for (var i = 0; i < questions.length; i++) {
-    var disQuestion = questions[i];
-    console.log(disQuestion);
+  if (numOfQuestion <= questions.length) {
+    var disQuestion = questions[numOfQuestion];
     questionStatement.textContent = disQuestion.question;
-    console.log(disQuestion.choices);
 
-    // display list of choices  of possible answers
-    for (var i = 0; i < disQuestion.choices.length; i++) {
-      console.log(disQuestion.choices.length);
-      var listChoices = disQuestion.choices[i];
-      console.log(listChoices);
-      var listQuestions = listChoices[Object.keys(listChoices)[0]];
-      console.log(listQuestions);
-      var li = document.createElement("li");
-      if (listChoices[Object.keys(listChoices)[1]]) {
-        li.setAttribute("data-true", "yes");
-      }
-      li.textContent = listQuestions;
-
-      disQuestions.appendChild(li);
-    }
-    checkAnswer();
+    DisplayOfChoices(disQuestion);
+  } else {
+    finishQuiz();
   }
 }
 
+// // display list choices  of possible answers
+function DisplayOfChoices(disQuestion) {
+  for (var i = 0; i < disQuestion.choices.length; i++) {
+    var listChoices = disQuestion.choices[i];
+    var listQuestions = listChoices[Object.keys(listChoices)[0]];
+    var li = document.createElement("li");
+    if (listChoices[Object.keys(listChoices)[1]]) {
+      li.setAttribute("data-true", "yes");
+    }
+    li.textContent = listQuestions;
+
+    disQuestions.appendChild(li);
+  }
+  checkAnswer();
+}
+
+// function to check if the answer selected is correct or wrong
 function checkAnswer() {
   disQuestions.addEventListener("click", function (event) {
     var element = event.target;
     if (element.matches("li") === true) {
       var selection = element.getAttribute("data-true");
-      console.log(selection);
     }
     if (selection === "yes") {
       element.setAttribute("data-correct", "correct");
       element.textContent = " Correct!";
       score++;
+      console.log(score);
     } else {
       element.setAttribute("data-correct", "wrong");
       element.textContent = " Wrong!";
       timerCount = timerCount - 5;
-      startTimer();
     }
+    // Set time out for 0.5 sec, so it will show if the answer is correct or wrong
+    setTimeout(function () {
+      numOfQuestion++;
+      disQuestions.replaceChildren();
+      displayQuestions();
+    }, 500);
   });
 }
 
+// function to display the form once the time is over or the user had answer all the questions
 function finishQuiz() {
   questionsField.style.display = "none";
   timerDiv.style.display = "none";
@@ -172,24 +184,40 @@ function finishQuiz() {
     "Thanks for taking this quiz!\n Your score is: " + score;
 }
 
+// function to store the score and initials of the user in local storage
 function submitScore() {
+  var prevScores = JSON.parse(localStorage.getItem("Score"));
+  listOfScores = prevScores;
+
   var scores = {
     initials: initialsForm.value.trim(),
     finalScore: score,
   };
-  localStorage.setItem("Score", JSON.stringify(scores));
+  listOfScores.push(scores);
+  localStorage.setItem("Score", JSON.stringify(listOfScores));
   window.alert("Thanks! Your score has been submitted");
 }
 
+// function to show the scores storaged in local storage
 function showResults() {
-  var li = document.createElement("li");
   var highScores = JSON.parse(localStorage.getItem("Score"));
+  console.log(highScores);
   if (highScores === null) {
     window.alert("No scores submitted at this stage");
     return;
+  } else {
+    for (var i = 0; i <= highScores.length; i++) {
+      if (i == highScores.length) {
+        resultButton.disabled = true;
+      }
+      var li = document.createElement("li");
+      li.textContent =
+        "Person: " +
+        highScores[i]["initials"] +
+        " Score: " +
+        highScores[i]["finalScore"];
+      console.log(highScores["initials"]);
+      displayResults.appendChild(li);
+    }
   }
-  console.log(highScores);
-  li.textContent =
-    "Person: " + highScores.initials + " Score: " + highScores.finalScore;
-  displayResults.appendChild(li);
 }
