@@ -19,6 +19,11 @@ header {
   flex-wrap: wrap;
 }
 
+.questionsField {
+  height: 258px;
+  width: 411px;
+}
+
 button {
   cursor: pointer;
 }
@@ -71,10 +76,10 @@ button {
   align-items: center;
 }
 
-#displayResults li {
+/* #displayResults li {
   list-style: upper-roman;
-}
+} */
 
-#resultsButton {
-  width: 200px;
+.results button {
+  width: 150px;
 }

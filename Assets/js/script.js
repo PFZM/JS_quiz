@@ -12,6 +12,7 @@ var submitButton = document.querySelector("#submit-button");
 var results = document.querySelector(".results");
 var startButton = document.querySelector("#startButton");
 var resultButton = document.querySelector("#resultsButton");
+var resetButton = document.querySelector("#resetButton");
 var displayResults = document.querySelector("#displayResults");
 
 // Declare variables for questions
@@ -82,12 +83,35 @@ const question3 = {
   ],
 };
 
+const question4 = {
+  question:
+    "Wich of the following function of String object combines the text of two strings and returns a new string?",
+  choices: [
+    {
+      ans1: "add()",
+      isTrue: false,
+    },
+    {
+      ans2: "merge()",
+      isTrue: false,
+    },
+    {
+      ans3: "concat()",
+      isTrue: true,
+    },
+    {
+      ans4: "append",
+      isTrue: false,
+    },
+  ],
+};
+
 // Declare variables
 var timerCount;
 var score = 0;
 var displayScores;
 var timer;
-var questions = [question1, question2, question3];
+var questions = [question1, question2, question3, question4];
 var numOfQuestion = 0;
 var prevScores = JSON.parse(localStorage.getItem("Score"));
 var listOfScores = [];
@@ -97,6 +121,7 @@ var highScores = [];
 startButton.addEventListener("click", startQuiz);
 submitButton.addEventListener("click", submitScore);
 resultButton.addEventListener("click", showResults);
+resetButton.addEventListener("click", resetResults);
 
 // function to start the quiz
 function startQuiz() {
@@ -224,4 +249,10 @@ function showResults() {
       displayResults.appendChild(li);
     }
   }
+}
+
+function resetResults() {
+  displayResults.innerHTML = "";
+  resultButton.disabled = false;
+  window.localStorage.clear();
 }
