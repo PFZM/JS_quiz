@@ -1,19 +1,19 @@
 // queryselectors
-var readyStatement = document.querySelector("#readyStatement");
-var questionsField = document.querySelector(".questionsField");
-var questionStatement = document.querySelector("#question");
-var disQuestions = document.querySelector("#displayQuestions");
-var timerDiv = document.querySelector(".timer");
-var timeLeft = document.querySelector("#timeLeft");
-var fnQuizdiv = document.querySelector(".finishQuiz");
-var personalScore = document.querySelector("#personalScore");
-var initialsForm = document.querySelector("#initials-name");
-var submitButton = document.querySelector("#submit-button");
-var results = document.querySelector(".results");
-var startButton = document.querySelector("#startButton");
-var resultButton = document.querySelector("#resultsButton");
-var resetButton = document.querySelector("#resetButton");
-var displayResults = document.querySelector("#displayResults");
+const readyStatement = document.querySelector("#readyStatement");
+const questionsField = document.querySelector(".questionsField");
+const questionStatement = document.querySelector("#question");
+const disQuestions = document.querySelector("#displayQuestions");
+const timerDiv = document.querySelector(".timer");
+const timeLeft = document.querySelector("#timeLeft");
+const fnQuizdiv = document.querySelector(".finishQuiz");
+const personalScore = document.querySelector("#personalScore");
+const initialsForm = document.querySelector("#initials-name");
+const submitButton = document.querySelector("#submit-button");
+const results = document.querySelector(".results");
+const startButton = document.querySelector("#startButton");
+const resultButton = document.querySelector("#resultsButton");
+const resetButton = document.querySelector("#resetButton");
+const displayResults = document.querySelector("#displayResults");
 
 // Declare variables for questions
 const question1 = {
@@ -107,15 +107,11 @@ const question4 = {
 };
 
 // Declare variables
-var timerCount;
-var score = 0;
-var displayScores;
-var timer;
-var questions = [question1, question2, question3, question4];
-var numOfQuestion = 0;
-var prevScores = JSON.parse(localStorage.getItem("Score"));
-var listOfScores = [];
-var highScores = [];
+let timerCount;
+let score = 0;
+let displayScores;
+const questions = [question1, question2, question3, question4];
+let numOfQuestion = 0;
 
 // event listeners
 startButton.addEventListener("click", startQuiz);
@@ -133,7 +129,7 @@ function startQuiz() {
 
 // function to start the timer once the user click the start button
 function startTimer() {
-  timer = setInterval(function () {
+  const timer = setInterval(function () {
     timerCount--;
     timeLeft.textContent = timerCount;
 
@@ -149,7 +145,7 @@ function displayQuestions() {
   disQuestions.style.display = "block";
 
   //   display questions
-  var disQuestion = questions[numOfQuestion];
+  const disQuestion = questions[numOfQuestion];
   questionStatement.textContent = disQuestion.question;
 
   displayOfChoices(disQuestion);
@@ -157,10 +153,10 @@ function displayQuestions() {
 
 // // display list choices  of possible answers
 function displayOfChoices(disQuestion) {
-  for (var i = 0; i < disQuestion.choices.length; i++) {
-    var listChoices = disQuestion.choices[i];
-    var listQuestions = listChoices[Object.keys(listChoices)[0]];
-    var li = document.createElement("li");
+  for (let i = 0; i < disQuestion.choices.length; i++) {
+    const listChoices = disQuestion.choices[i];
+    const listQuestions = listChoices[Object.keys(listChoices)[0]];
+    const li = document.createElement("li");
     if (listChoices[Object.keys(listChoices)[1]]) {
       li.setAttribute("data-true", "yes");
     }
@@ -171,9 +167,9 @@ function displayOfChoices(disQuestion) {
 }
 // check answer
 disQuestions.addEventListener("click", function (event) {
-  var element = event.target;
+  const element = event.target;
   if (element.matches("li") === true) {
-    var selection = element.getAttribute("data-true");
+    const selection = element.getAttribute("data-true");
 
     if (selection === "yes") {
       element.setAttribute("data-correct", "correct");
@@ -211,42 +207,34 @@ function finishQuiz() {
 // function to store the score and initials of the user in local storage
 function submitScore() {
   if (initialsForm.value === "") {
-    window.alert("Plese add your initials");
-  } else {
-    var scores = {
-      initials: initialsForm.value.trim(),
-      finalScore: score,
-    };
-    if (prevScores === null) {
-      listOfScores.push(scores);
-    } else {
-      listOfScores = prevScores;
-      console.log(listOfScores);
-      listOfScores.push(scores);
-    }
-    localStorage.setItem("Score", JSON.stringify(listOfScores));
-    window.alert("Thanks! Your score has been submitted");
+    return window.alert("Plese add your initials");
   }
+  let listOfScores = JSON.parse(localStorage.getItem("Score")) || [];
+  listOfScores.push({
+    initials: initialsForm.value.trim(),
+    finalScore: score,
+  });
+  localStorage.setItem("Score", JSON.stringify(listOfScores));
+  window.alert("Thanks! Your score has been submitted");
 }
 
 // function to show the scores storaged in local storage
 function showResults() {
-  var highScores = JSON.parse(localStorage.getItem("Score"));
+  const highScores = JSON.parse(localStorage.getItem("Score")) || [];
   if (highScores === null) {
     window.alert("No scores submitted at this stage");
     return;
-  } else {
-    resultButton.disabled = true;
-    for (var i = 0; i < highScores.length; i++) {
-      console.log(highScores.length);
-      var li = document.createElement("li");
-      li.textContent =
-        "Person: " +
-        highScores[i]["initials"] +
-        " / Score: " +
-        highScores[i]["finalScore"];
-      displayResults.appendChild(li);
-    }
+  }
+  resultButton.disabled = true;
+  for (let i = 0; i < highScores.length; i++) {
+    console.log(highScores.length);
+    const li = document.createElement("li");
+    li.textContent =
+      "Person: " +
+      highScores[i]["initials"] +
+      " / Score: " +
+      highScores[i]["finalScore"];
+    displayResults.appendChild(li);
   }
 }
 
