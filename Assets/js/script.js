@@ -220,8 +220,9 @@ function submitScore() {
     if (prevScores === null) {
       listOfScores.push(scores);
     } else {
+      listOfScores = prevScores;
+      console.log(listOfScores);
       listOfScores.push(scores);
-      //   window.localStorage.clear();
     }
     localStorage.setItem("Score", JSON.stringify(listOfScores));
     window.alert("Thanks! Your score has been submitted");
@@ -230,14 +231,12 @@ function submitScore() {
 
 // function to show the scores storaged in local storage
 function showResults() {
-  var highScoresList = JSON.parse(localStorage.getItem("Score"));
-  if (highScoresList === null) {
+  var highScores = JSON.parse(localStorage.getItem("Score"));
+  if (highScores === null) {
     window.alert("No scores submitted at this stage");
     return;
   } else {
     resultButton.disabled = true;
-    highScores = highScoresList;
-    console.log(highScores);
     for (var i = 0; i < highScores.length; i++) {
       console.log(highScores.length);
       var li = document.createElement("li");
