@@ -89,7 +89,9 @@ var displayScores;
 var timer;
 var questions = [question1, question2, question3];
 var numOfQuestion = 0;
+var prevScores = JSON.parse(localStorage.getItem("Score"));
 var listOfScores = [];
+var highScores = [];
 
 // event listeners
 startButton.addEventListener("click", startQuiz);
@@ -122,18 +124,14 @@ function displayQuestions() {
   disQuestions.style.display = "block";
 
   //   display questions
-  if (numOfQuestion <= questions.length) {
-    var disQuestion = questions[numOfQuestion];
-    questionStatement.textContent = disQuestion.question;
+  var disQuestion = questions[numOfQuestion];
+  questionStatement.textContent = disQuestion.question;
 
-    DisplayOfChoices(disQuestion);
-  } else {
-    finishQuiz();
-  }
+  displayOfChoices(disQuestion);
 }
 
 // // display list choices  of possible answers
-function DisplayOfChoices(disQuestion) {
+function displayOfChoices(disQuestion) {
   for (var i = 0; i < disQuestion.choices.length; i++) {
     var listChoices = disQuestion.choices[i];
     var listQuestions = listChoices[Object.keys(listChoices)[0]];
@@ -145,34 +143,35 @@ function DisplayOfChoices(disQuestion) {
 
     disQuestions.appendChild(li);
   }
-  checkAnswer();
 }
+// check answer
+disQuestions.addEventListener("click", function (event) {
+  var element = event.target;
+  if (element.matches("li") === true) {
+    var selection = element.getAttribute("data-true");
 
-// function to check if the answer selected is correct or wrong
-function checkAnswer() {
-  disQuestions.addEventListener("click", function (event) {
-    var element = event.target;
-    if (element.matches("li") === true) {
-      var selection = element.getAttribute("data-true");
-    }
     if (selection === "yes") {
       element.setAttribute("data-correct", "correct");
       element.textContent = " Correct!";
       score++;
-      console.log(score);
     } else {
       element.setAttribute("data-correct", "wrong");
       element.textContent = " Wrong!";
       timerCount = timerCount - 5;
     }
-    // Set time out for 0.5 sec, so it will show if the answer is correct or wrong
-    setTimeout(function () {
-      numOfQuestion++;
-      disQuestions.replaceChildren();
+  }
+
+  // Set time out for 0.5 sec, so it will show if the answer is correct or wrong
+  setTimeout(function () {
+    numOfQuestion++;
+    disQuestions.innerHTML = "";
+    if (numOfQuestion < questions.length) {
       displayQuestions();
-    }, 500);
-  });
-}
+    } else {
+      finishQuiz();
+    }
+  }, 500);
+});
 
 // function to display the form once the time is over or the user had answer all the questions
 function finishQuiz() {
@@ -186,37 +185,42 @@ function finishQuiz() {
 
 // function to store the score and initials of the user in local storage
 function submitScore() {
-  var prevScores = JSON.parse(localStorage.getItem("Score"));
-  listOfScores = prevScores;
-
-  var scores = {
-    initials: initialsForm.value.trim(),
-    finalScore: score,
-  };
-  listOfScores.push(scores);
-  localStorage.setItem("Score", JSON.stringify(listOfScores));
-  window.alert("Thanks! Your score has been submitted");
+  if (initialsForm.value === "") {
+    window.alert("Plese add your initials");
+  } else {
+    var scores = {
+      initials: initialsForm.value.trim(),
+      finalScore: score,
+    };
+    if (prevScores === null) {
+      listOfScores.push(scores);
+    } else {
+      listOfScores.push(scores);
+      //   window.localStorage.clear();
+    }
+    localStorage.setItem("Score", JSON.stringify(listOfScores));
+    window.alert("Thanks! Your score has been submitted");
+  }
 }
 
 // function to show the scores storaged in local storage
 function showResults() {
-  var highScores = JSON.parse(localStorage.getItem("Score"));
-  console.log(highScores);
-  if (highScores === null) {
+  var highScoresList = JSON.parse(localStorage.getItem("Score"));
+  if (highScoresList === null) {
     window.alert("No scores submitted at this stage");
     return;
   } else {
-    for (var i = 0; i <= highScores.length; i++) {
-      if (i == highScores.length) {
-        resultButton.disabled = true;
-      }
+    resultButton.disabled = true;
+    highScores = highScoresList;
+    console.log(highScores);
+    for (var i = 0; i < highScores.length; i++) {
+      console.log(highScores.length);
       var li = document.createElement("li");
       li.textContent =
         "Person: " +
         highScores[i]["initials"] +
-        " Score: " +
+        " / Score: " +
         highScores[i]["finalScore"];
-      console.log(highScores["initials"]);
       displayResults.appendChild(li);
     }
   }

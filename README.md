@@ -1,5 +1,11 @@
 # JS Code Quiz HMW4
 
+Link to the web application:
+
+```
+
+```
+
 ## User Story
 
 ```
@@ -23,3 +29,11 @@ THEN the game is over
 WHEN the game is over
 THEN I can save my initials and my score
 ```
+
+## Application functionality
+
+The following images demonstrates the application functionality:
+
+![A user is presented with a button to start the quiz and a button to check the scores.](./Assets/Images/JSquizinitial.png)
+
+![When the user finish all the questions, score is shown and app ask to submit the intials. When score button is clicked the list of storged scores appear](./Assets/Images/JSquizfinal.png)
